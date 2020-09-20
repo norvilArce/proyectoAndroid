@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Mulu Marketplace</string>
-    <string name="mensajeLogin">Or log in tith social account</string>
+    <string name="mensajeLogin">Or log in with social account</string>
     <string name="ingresar">get in</string>
     <string name="passwordHint">Your password</string>
     <string name="numberHint">Your number</string>
     <string name="login">log in</string>
-    <string name="registrar">sign uo</string>
+    <string name="registrar">sign up</string>
 </resources>

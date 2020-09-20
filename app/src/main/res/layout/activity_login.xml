@@ -10,89 +10,85 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_weight="1.5"
         android:gravity="center_horizontal"
-        >
+        android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:paddingBottom="10dp"
-        android:orientation="horizontal">
-
-        <Button
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/login"
-            android:background="@color/colorHint"/>
+            android:src="@drawable/logo" />
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/registrar"
-            android:background="@color/colorPrimaryDark"/>
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_btn_login"
+                android:text="@string/login" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_btn_signup"
+                android:text="@string/registrar" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:layout_weight="1.2"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/numberHint"
-        android:layout_marginTop="15dp"
-        android:textColorHint="@color/colorHint"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/numberHint"
+            android:textColorHint="@color/colorHint" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/passwordHint"
-        android:layout_marginTop="15dp"
-        />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:hint="@string/passwordHint" />
 
-    <Button
-        android:id="@+id/btnIngresar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ingresar"
-        android:layout_marginTop="15dp"
-        android:background="@color/colorPrimary2"/>
+        <Button
+            android:id="@+id/btnIngresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_btn_getin"
+            android:text="@string/ingresar" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="25dp"
-        android:text="@string/mensajeLogin" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:gravity="center"
+            android:text="@string/mensajeLogin" />
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/btn_google"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorBackground"
-        />
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_btn_redes"
+            android:src="@drawable/btn_google" />
 
-    <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/btn_fb"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorBackground"
-        android:layout_gravity="bottom"
-        />
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_btn_redes"
+            android:src="@drawable/btn_fb" />
     </LinearLayout>
 </LinearLayout>
