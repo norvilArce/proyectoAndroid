@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.isil.appproyectoandroid.tabs.TabsActivity;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnIngresar;
@@ -23,10 +25,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        irAlMainActivity();
+        irATabsActivity();
     }
 
-    private void irAlMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
+    private void irATabsActivity() {
+        startActivity(new Intent(this, TabsActivity.class));
     }
 }
