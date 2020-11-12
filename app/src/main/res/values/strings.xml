@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mulu Marketplace</string>
+    <string name="app_name">La billetera de Esperancito</string>
     <string name="mensajeLogin">Or log in with social account</string>
     <string name="ingresar">get in</string>
     <string name="passwordHint">Your password</string>
