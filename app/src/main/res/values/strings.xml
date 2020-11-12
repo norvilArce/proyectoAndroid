@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">La billetera de Esperancito</string>
-    <string name="mensajeLogin">Or log in with social account</string>
-    <string name="ingresar">get in</string>
+    <string name="mensajeLogin">Bienvenido! Aqui Podra Gestionar Sus movimientos de Ingresos y Gastos. Si desea continuar. Presione "Siguiente"</string>
+    <string name="ingresar">Siguiente</string>
     <string name="passwordHint">Your password</string>
     <string name="numberHint">Your number</string>
     <string name="login">log in</string>
     <string name="registrar">sign up</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="movimientos">Movimientos</string>
+    <string name="ingresos">Ingresos</string>
+    <string name="gastos">Gastos</string>
 </resources>

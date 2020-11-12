@@ -49,17 +49,13 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="@string/numberHint"
-            android:textColorHint="@color/colorHint" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:hint="@string/passwordHint" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/mensajeLogin"
+            android:textSize="35dp" />
 
         <Button
             android:id="@+id/btnIngresar"
@@ -69,26 +65,7 @@
             android:background="@drawable/bg_btn_getin"
             android:text="@string/ingresar" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:gravity="center"
-            android:text="@string/mensajeLogin" />
 
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_btn_redes"
-            android:src="@drawable/btn_google" />
 
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_btn_redes"
-            android:src="@drawable/btn_fb" />
     </LinearLayout>
 </LinearLayout>
