@@ -1,5 +1,6 @@
 package com.isil.appproyectoandroid.tabs;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
+import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +24,10 @@ import com.isil.appproyectoandroid.R;
  * create an instance of this fragment.
  */
 public class GastosFragment extends Fragment {
+
+
+    ArrayList gastos = new ArrayList<HashMap<String, String>>();
+    ListView lvGastos;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +73,41 @@ public class GastosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gastos, container, false);
+        View v = inflater.inflate(R.layout.fragment_gastos, container, false);
+
+        lvGastos = v.findViewById(R.id.lvGastos);
+        llenarLista();
+
+        return v;
+    }
+
+    private void llenarLista() {
+        gastos.clear();
+        Datos datos = new Datos(getContext());
+        Cursor cursor = datos.mostrarGastos(datos);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("idmovimiento", cursor.getString(cursor.getColumnIndex("idmovimiento")));
+                    map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
+                    map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
+                    map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
+
+                    gastos.add(map);
+                } while (cursor.moveToNext());
+                String[] origen = {"fecha", "descripcion", "monto"};
+                int[] destino = {R.id.tvFecha, R.id.tvDescripcion, R.id.tvMonto};
+
+
+                ListAdapter listAdapter = new SimpleAdapter(getContext(),
+                        gastos,
+                        R.layout.list_items,
+                        origen,
+                        destino);
+                lvGastos.setAdapter(listAdapter);
+            }
+        }
     }
 }

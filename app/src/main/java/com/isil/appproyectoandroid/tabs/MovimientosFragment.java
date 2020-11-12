@@ -1,14 +1,24 @@
 package com.isil.appproyectoandroid.tabs;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
+import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +31,9 @@ public class MovimientosFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    TextView tvMonto;
+    ArrayList movimientos = new ArrayList<HashMap<String, String>>();
+    ListView lvMovimientos;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -61,6 +73,49 @@ public class MovimientosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movimientos, container, false);
+        View v = inflater.inflate(R.layout.fragment_movimientos, container, false);
+
+        tvMonto = v.findViewById(R.id.tvMonto);
+        lvMovimientos = v.findViewById(R.id.lvMovimientos);
+        llenarLista();
+
+        return v;
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void llenarLista() {
+        movimientos.clear();
+        Datos datos = new Datos(getContext());
+        Cursor cursor = datos.mostrarTodo(datos);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("idmovimiento", cursor.getString(cursor.getColumnIndex("idmovimiento")));
+                    map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
+                    map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
+                    map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
+                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
+                    movimientos.add(map);
+                } while (cursor.moveToNext());
+                String[] origen = {"fecha", "descripcion", "monto", "movimiento"};
+                int[] destino = {R.id.tvFecha, R.id.tvDescripcion, R.id.tvMonto};
+
+                //puede dar error
+                /*if (origen[4].equals("1")) {
+                    tvMonto.setTextColor(R.color.ingreso);
+                } else {
+                    tvMonto.setTextColor(R.color.gasto);
+                }*/
+
+                ListAdapter listAdapter = new SimpleAdapter(getContext(),
+                        movimientos,
+                        R.layout.list_items,
+                        origen,
+                        destino);
+                lvMovimientos.setAdapter(listAdapter);
+            }
+        }
     }
 }

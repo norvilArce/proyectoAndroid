@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".tabs.GastosFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gastos"
-        android:textColor="@color/colorAccent"
-        android:textSize="35sp" />
     <ListView
         android:id="@+id/lvGastos"
         android:layout_width="match_parent"

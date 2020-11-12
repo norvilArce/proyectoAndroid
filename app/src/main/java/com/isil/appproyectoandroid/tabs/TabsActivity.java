@@ -8,15 +8,18 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.isil.appproyectoandroid.AddActivity;
+import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
 
 public class TabsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -94,11 +97,47 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        irAAddActivity();
+        switch (view.getId()){
+            case R.id.fabAgregarMovimiento:
+                mostrarAlertDialogAgregar();
+                break;
+        }
     }
 
-    private void irAAddActivity() {
-        startActivity(new Intent(this, AddActivity.class));
+    private void mostrarAlertDialogAgregar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Agregar Movimiento");
+
+        View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_agregar, null);
+        builder.setView(view);
+
+        final EditText descripcion = (EditText)view.findViewById(R.id.etDescripcion);
+        final EditText monto = (EditText)view.findViewById(R.id.etMonto);
+
+        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String newDescripcion = descripcion.getText().toString().trim();
+                float newMonto = Float.parseFloat(monto.getText().toString().trim());
+
+                if (newDescripcion.length() > 0 && newMonto>0)
+                    registrar(newDescripcion, newMonto);
+                else
+                    Toast.makeText(getApplicationContext(), "No puede ingresar campos vacios", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void registrar(String descripcion, float monto) {
+        Datos datos = new Datos(this);
+        int movimiento = 1;
+        long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
+        Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
     }
 
     private void confirmarBorrado() {

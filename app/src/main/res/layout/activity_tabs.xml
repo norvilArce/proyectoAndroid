@@ -37,7 +37,6 @@
                 android:text="5000.00"
                 android:textSize="55sp"/>
 
-
         </LinearLayout>
 
         <LinearLayout
