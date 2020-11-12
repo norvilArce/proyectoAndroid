@@ -62,21 +62,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/ic_money"
-                    android:text="Movimientos" />
+                    android:text="@string/movimientos"/>
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabIngreos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/ic_ingresos"
-                    android:text="Ingresos" />
+                    android:text="@string/ingresos" />
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabGastos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:icon="@drawable/ic_gastos"
-                    android:text="Gastos" />
+                    android:text="@string/gastos" />
 
             </com.google.android.material.tabs.TabLayout>
 
