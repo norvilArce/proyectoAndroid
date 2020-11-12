@@ -2,10 +2,10 @@
 <resources>
 
     <!--degradado -122°-->
-    <color name="colorPrimary">#5950DF</color>
-    <color name="colorPrimary2">#9ae3f2</color>
+    <color name="colorPrimary">#ffd50a</color>
+    <color name="colorPrimary2">#783BB7</color>
+    <color name="colorPrimary3">#5950DF</color>
 
-    <color name="colorPrimary3">#9ae3f2</color>
     <color name="colorPrimaryDark">#1A1C23</color>
     <color name="colorAccent">#FF45A9</color>
     <color name="colorText">#F6F6F6</color>
