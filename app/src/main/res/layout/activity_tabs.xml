@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".tabs.TabsActivity">
@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginRight="6dp"
-        app:srcCompat="@drawable/ic_add"
+        android:layout_marginBottom="85dp"
         android:clickable="true"
-        android:layout_marginBottom="85dp"/>
+        app:srcCompat="@drawable/ic_add" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,42 +24,63 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vpTabs"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvSaldo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5000.00"
+                android:textSize="55sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tlMovimientos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpTabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabMovimientos"
-                android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlMovimientos"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_money"
-                android:text="Movimientos" />
+                android:background="@color/colorPrimary">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabIngreos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_ingresos"
-                android:text="Ingresos" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabMovimientos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/ic_money"
+                    android:text="Movimientos" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabGastos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_gastos"
-                android:text="Gastos" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabIngreos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/ic_ingresos"
+                    android:text="Ingresos" />
 
-        </com.google.android.material.tabs.TabLayout>
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tabGastos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/ic_gastos"
+                    android:text="Gastos" />
+
+            </com.google.android.material.tabs.TabLayout>
 
 
+        </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>
