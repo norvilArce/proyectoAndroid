@@ -12,4 +12,7 @@
     <color name="colorHint">#2A2C36</color>
     <color name="colorText2">#FFBA49</color>
 
+    <color name="ingreso">#174188</color>
+    <color name="gasto">#D83030</color>
+
 </resources>
