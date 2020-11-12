@@ -2,7 +2,7 @@
 <resources>
 
     <!--degradado -122°-->
-    <color name="colorPrimary">#9ae3f2</color>
+    <color name="colorPrimary">#ffd50a</color>
     <color name="colorPrimary2">#783BB7</color>
     <color name="colorPrimary3">#5950DF</color>
 
