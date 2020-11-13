@@ -97,6 +97,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.itm_borrar:
+                borrarTodo();
                 confirmarBorrado();
                 return true;
             default:
@@ -156,19 +157,6 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         builder.create().show();
     }
 
-    public void registrar(String descripcion, float monto, int movimiento) {
-        Datos datos = new Datos(this);
-        long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
-        Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
-
-        if (movimiento==0){
-            gastosFragment.llenarLista();
-        }else if(movimiento==1){
-            ingresosFragment.llenarLista();
-        }
-        movimientosFragment.llenarLista();
-    }
-
     private void confirmarBorrado() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar Movimientos");
@@ -184,7 +172,25 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
+    public void registrar(String descripcion, float monto, int movimiento) {
+        Datos datos = new Datos(this);
+        long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
+        Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
+
+        if (movimiento==0){
+            gastosFragment.llenarLista();
+        }else if(movimiento==1){
+            ingresosFragment.llenarLista();
+        }
+        movimientosFragment.llenarLista();
+    }
+
     private void borrarTodo() {
-        Toast.makeText(this, "que vas a borrar si no hay nada :v", Toast.LENGTH_SHORT).show();
+        Datos datos = new Datos(this);
+        datos.eliminarMovimientos(datos);
+        gastosFragment.llenarLista();
+        ingresosFragment.llenarLista();
+        movimientosFragment.llenarLista();
+        Toast.makeText(this, "y se marchooo :v", Toast.LENGTH_SHORT).show();
     }
 }

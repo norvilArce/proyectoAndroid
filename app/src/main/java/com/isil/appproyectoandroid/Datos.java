@@ -64,6 +64,13 @@ public class Datos extends SQLiteOpenHelper {
         return suma;
     }
 
+    public void eliminarMovimientos(Datos datos){
+        SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
+        String consultaSQL = "delete from movimientos";
+        sqLiteDatabase.rawQuery(consultaSQL,null);
+    }
+
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
