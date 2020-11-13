@@ -81,7 +81,7 @@ public class GastosFragment extends Fragment {
         return v;
     }
 
-    private void llenarLista() {
+    public void llenarLista() {
         gastos.clear();
         Datos datos = new Datos(getContext());
         Cursor cursor = datos.mostrarGastos(datos);
@@ -94,19 +94,12 @@ public class GastosFragment extends Fragment {
                     map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
                     map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
                     map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
-
+                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
                     gastos.add(map);
                 } while (cursor.moveToNext());
-                String[] origen = {"fecha", "descripcion", "monto"};
-                int[] destino = {R.id.tvFecha, R.id.tvDescripcion, R.id.tvMonto};
 
-
-                ListAdapter listAdapter = new SimpleAdapter(getContext(),
-                        gastos,
-                        R.layout.list_items,
-                        origen,
-                        destino);
-                lvGastos.setAdapter(listAdapter);
+                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), gastos);
+                lvGastos.setAdapter(adapter);
             }
         }
     }

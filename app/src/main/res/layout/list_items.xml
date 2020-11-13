@@ -19,15 +19,15 @@
             android:id="@+id/tvDescripcion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:textSize="18sp" />
+            android:layout_weight="8"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/tvMonto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="12sp" />
+            android:layout_weight="3"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
@@ -35,6 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:textStyle="italic" />
 </LinearLayout>

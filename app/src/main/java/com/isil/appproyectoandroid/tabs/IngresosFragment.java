@@ -73,7 +73,6 @@ public class IngresosFragment extends Fragment {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class IngresosFragment extends Fragment {
         return v;
     }
 
-    private void llenarLista() {
+    public void llenarLista() {
         ingresos.clear();
         Datos datos = new Datos(getContext());
         Cursor cursor = datos.mostrarIngresos(datos);
@@ -100,17 +99,13 @@ public class IngresosFragment extends Fragment {
                     map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
                     map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
                     map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
+                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
                     ingresos.add(map);
                 } while (cursor.moveToNext());
-                String[] origen = {"fecha", "descripcion", "monto"};
-                int[] destino = {R.id.tvFecha, R.id.tvDescripcion, R.id.tvMonto};
 
-                ListAdapter listAdapter = new SimpleAdapter(getContext(),
-                        ingresos,
-                        R.layout.list_items,
-                        origen,
-                        destino);
-                lvIngresos.setAdapter(listAdapter);
+                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), ingresos);
+
+                lvIngresos.setAdapter(adapter);
             }
         }
     }

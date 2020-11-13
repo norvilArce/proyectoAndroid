@@ -34,6 +34,7 @@ public class MovimientosFragment extends Fragment {
     TextView tvMonto;
     ArrayList movimientos = new ArrayList<HashMap<String, String>>();
     ListView lvMovimientos;
+    MovimientosAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -82,8 +83,7 @@ public class MovimientosFragment extends Fragment {
         return v;
     }
 
-    @SuppressLint("ResourceAsColor")
-    private void llenarLista() {
+    public void llenarLista() {
         movimientos.clear();
         Datos datos = new Datos(getContext());
         Cursor cursor = datos.mostrarTodo(datos);
@@ -99,23 +99,15 @@ public class MovimientosFragment extends Fragment {
                     map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
                     movimientos.add(map);
                 } while (cursor.moveToNext());
-                String[] origen = {"fecha", "descripcion", "monto", "movimiento"};
-                int[] destino = {R.id.tvFecha, R.id.tvDescripcion, R.id.tvMonto};
 
-                //puede dar error
-                /*if (origen[4].equals("1")) {
-                    tvMonto.setTextColor(R.color.ingreso);
-                } else {
-                    tvMonto.setTextColor(R.color.gasto);
-                }*/
+                adapter = new MovimientosAdapter(getActivity(), movimientos);
 
-                ListAdapter listAdapter = new SimpleAdapter(getContext(),
-                        movimientos,
-                        R.layout.list_items,
-                        origen,
-                        destino);
-                lvMovimientos.setAdapter(listAdapter);
+                lvMovimientos.setAdapter(adapter);
             }
         }
+    }
+
+    public void updateMovimientos(){
+        adapter.notifyDataSetChanged();
     }
 }

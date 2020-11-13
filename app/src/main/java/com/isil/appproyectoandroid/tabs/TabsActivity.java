@@ -8,13 +8,18 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
@@ -26,9 +31,13 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     private TabLayout tlMovimientos;
     private ViewPager vpTaps;
-    private TabItem tabMovimientos, tabIngresos, tabGastos;
+    private TabItem tabIngresos, tabGastos;
     private PagerAdapter adapter;
     private FloatingActionButton fab;
+
+    MovimientosFragment movimientosFragment = new MovimientosFragment();
+    IngresosFragment ingresosFragment = new IngresosFragment();
+    GastosFragment gastosFragment = new GastosFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +52,9 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new PagerAdapter(getSupportFragmentManager());
 
         tlMovimientos.setupWithViewPager(vpTaps);
-        adapter.addFragments(new MovimientosFragment(),"Movimientos");
-        adapter.addFragments(new IngresosFragment(), "Ingresos");
-        adapter.addFragments(new GastosFragment(), "Gastos");
+        adapter.addFragments(movimientosFragment,"Movimientos");
+        adapter.addFragments(ingresosFragment, "Ingresos");
+        adapter.addFragments(gastosFragment, "Gastos");
         vpTaps.setAdapter(adapter);
 
         tlMovimientos.getTabAt(0).setIcon(R.drawable.ic_money);
@@ -112,32 +121,51 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_agregar, null);
         builder.setView(view);
 
-        final EditText descripcion = (EditText)view.findViewById(R.id.etDescripcion);
-        final EditText monto = (EditText)view.findViewById(R.id.etMonto);
+        final EditText etDescripcion = (EditText)view.findViewById(R.id.etDescripcion);
+        final EditText etMonto = (EditText)view.findViewById(R.id.etMonto);
+        final RadioButton rbIngreso =view.findViewById(R.id.rbIngreso);
 
+        rbIngreso.setChecked(true);
         builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String newDescripcion = descripcion.getText().toString().trim();
-                float newMonto = Float.parseFloat(monto.getText().toString().trim());
+                String descripcion = etDescripcion.getText().toString().trim();
+                String monto = etMonto.getText().toString().trim();
 
-                if (newDescripcion.length() > 0 && newMonto>0)
-                    registrar(newDescripcion, newMonto);
-                else
+                if (!descripcion.equals("") && !monto.equals("")) {
+                    float fMonto = Float.parseFloat(monto);
+                    int movimiento;
+                    if (rbIngreso.isChecked()){
+                        movimiento=1;
+                    }else {
+                        movimiento=0;
+                    }
+                    registrar(descripcion, fMonto, movimiento);
+                }else {
                     Toast.makeText(getApplicationContext(), "No puede ingresar campos vacios", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
             }
         });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
-    public void registrar(String descripcion, float monto) {
+    public void registrar(String descripcion, float monto, int movimiento) {
         Datos datos = new Datos(this);
-        int movimiento = 1;
         long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
         Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
+
+        if (movimiento==0){
+            gastosFragment.llenarLista();
+        }else{
+            ingresosFragment.llenarLista();
+        }
+        movimientosFragment.llenarLista();
     }
 
     private void confirmarBorrado() {
