@@ -81,6 +81,11 @@ public class GastosFragment extends Fragment {
         return v;
     }
 
+
+
+
+
+
     public void llenarLista() {
         gastos.clear();
         Datos datos = new Datos(getContext());

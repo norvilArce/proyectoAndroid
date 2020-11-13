@@ -104,7 +104,6 @@ public class IngresosFragment extends Fragment {
                 } while (cursor.moveToNext());
 
                 MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), ingresos);
-
                 lvIngresos.setAdapter(adapter);
             }
         }

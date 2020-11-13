@@ -124,6 +124,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         final EditText etDescripcion = (EditText)view.findViewById(R.id.etDescripcion);
         final EditText etMonto = (EditText)view.findViewById(R.id.etMonto);
         final RadioButton rbIngreso =view.findViewById(R.id.rbIngreso);
+        final RadioButton rbGasto =view.findViewById(R.id.rbGasto);
 
         rbIngreso.setChecked(true);
         builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
@@ -135,7 +136,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
                 if (!descripcion.equals("") && !monto.equals("")) {
                     float fMonto = Float.parseFloat(monto);
                     int movimiento;
-                    if (rbIngreso.isChecked()){
+                    if (!rbGasto.isChecked()){
                         movimiento=1;
                     }else {
                         movimiento=0;
@@ -162,7 +163,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
         if (movimiento==0){
             gastosFragment.llenarLista();
-        }else{
+        }else if(movimiento==1){
             ingresosFragment.llenarLista();
         }
         movimientosFragment.llenarLista();
