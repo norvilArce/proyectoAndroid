@@ -1,5 +1,8 @@
 package com.isil.appproyectoandroid.tabs;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +10,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +28,10 @@ import com.isil.appproyectoandroid.R;
  * create an instance of this fragment.
  */
 public class IngresosFragment extends Fragment {
+
+    ArrayList ingresos = new ArrayList<HashMap<String, String>>();
+    ListView lvIngresos;
+    TextView tvMonto;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +77,35 @@ public class IngresosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ingresos, container, false);
+        View v = inflater.inflate(R.layout.fragment_ingresos, container, false);
+        tvMonto = v.findViewById(R.id.tvMonto);
+        lvIngresos = v.findViewById(R.id.lvIngresos);
+
+        llenarLista();
+
+        return v;
+    }
+
+    public void llenarLista() {
+        ingresos.clear();
+        Datos datos = new Datos(getContext());
+        Cursor cursor = datos.mostrarIngresos(datos);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("idmovimiento", cursor.getString(cursor.getColumnIndex("idmovimiento")));
+                    map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
+                    map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
+                    map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
+                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
+                    ingresos.add(map);
+                } while (cursor.moveToNext());
+
+                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), ingresos);
+                lvIngresos.setAdapter(adapter);
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="#B3A897"
     android:orientation="vertical"
     tools:context=".tabs.TabsActivity">
 
@@ -36,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:text="5000.00"
                 android:textSize="55sp"/>
-
 
         </LinearLayout>
 
