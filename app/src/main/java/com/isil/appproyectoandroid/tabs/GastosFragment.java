@@ -20,9 +20,12 @@ import android.widget.SimpleAdapter;
 
 import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
+import com.isil.appproyectoandroid.models.Movimiento;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +35,7 @@ import java.util.HashMap;
 public class GastosFragment extends Fragment {
 
 
-    ArrayList gastos = new ArrayList<HashMap<String, String>>();
+    List<Movimiento> gastos = new ArrayList();
     ListView lvGastos;
 
 
@@ -134,16 +137,17 @@ public class GastosFragment extends Fragment {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("idmovimiento", cursor.getString(cursor.getColumnIndex("idmovimiento")));
-                    map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
-                    map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
-                    map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
-                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
-                    gastos.add(map);
+                    Movimiento movimiento;
+                    Integer idmovimiento = cursor.getInt(cursor.getColumnIndex("idmovimiento"));
+                    String fecha = cursor.getString(cursor.getColumnIndex("fecha"));
+                    String descripcion = cursor.getString(cursor.getColumnIndex("descripcion"));
+                    float monto =cursor.getFloat(cursor.getColumnIndex("monto"));
+                    int tipo = cursor.getInt(cursor.getColumnIndex("movimiento"));
+                    movimiento = new Movimiento(idmovimiento, fecha, descripcion, monto, tipo);
+                    gastos.add(movimiento);
                 } while (cursor.moveToNext());
 
-                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), gastos);
+                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), R.layout.list_items, gastos);
                 lvGastos.setAdapter(adapter);
             }
         }

@@ -1,9 +1,7 @@
 package com.isil.appproyectoandroid.tabs;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.security.identity.IdentityCredentialStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -11,10 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +19,13 @@ import androidx.fragment.app.Fragment;
 
 import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
+import com.isil.appproyectoandroid.models.Movimiento;
+import com.isil.appproyectoandroid.util.Util;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +39,7 @@ public class MovimientosFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView tvMonto;
-    ArrayList movimientos = new ArrayList<HashMap<String, String>>();
+    List<Movimiento> movimientos = new ArrayList<>();
     ListView lvMovimientos;
     MovimientosAdapter adapter;
     // TODO: Rename and change types of parameters
@@ -99,7 +98,7 @@ public class MovimientosFragment extends Fragment {
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+                super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.context_menu, menu);
@@ -108,12 +107,12 @@ public class MovimientosFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.opt_editar:
-                editarMovimiento(info.position);
+                Util.editarMovimiento(movimientos.get(info.position), getContext());
                 return true;
             case R.id.opt_borrar:
-                borrarMovimiento(info.position);
+                Util.borrarMovimiento(movimientos.get(info.position), getContext());
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -121,14 +120,6 @@ public class MovimientosFragment extends Fragment {
 
     }
 
-    private void editarMovimiento(int position) {
-        Object o = movimientos.get(position);
-        Toast.makeText(getContext(), o.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    private void borrarMovimiento(int position) {
-
-    }
 
     public void llenarLista() {
         movimientos.clear();
@@ -138,23 +129,20 @@ public class MovimientosFragment extends Fragment {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("idmovimiento", cursor.getString(cursor.getColumnIndex("idmovimiento")));
-                    map.put("fecha", cursor.getString(cursor.getColumnIndex("fecha")));
-                    map.put("descripcion", cursor.getString(cursor.getColumnIndex("descripcion")));
-                    map.put("monto", cursor.getString(cursor.getColumnIndex("monto")));
-                    map.put("movimiento", cursor.getString(cursor.getColumnIndex("movimiento")));
-                    movimientos.add(map);
+                    Integer idmovimiento = cursor.getInt(cursor.getColumnIndex("idmovimiento"));
+                    String fecha = cursor.getString(cursor.getColumnIndex("fecha"));
+                    String descripcion = cursor.getString(cursor.getColumnIndex("descripcion"));
+                    float monto =cursor.getFloat(cursor.getColumnIndex("monto"));
+                    int tipo = cursor.getInt(cursor.getColumnIndex("movimiento"));
+                    Movimiento movimiento = new Movimiento(idmovimiento, fecha, descripcion, monto, tipo);
+
+                    movimientos.add(movimiento);
                 } while (cursor.moveToNext());
 
-                adapter = new MovimientosAdapter(getActivity(), movimientos);
+                adapter = new MovimientosAdapter(getActivity(), R.layout.list_items, movimientos);
 
                 lvMovimientos.setAdapter(adapter);
             }
         }
-    }
-
-    public void updateMovimientos(){
-        adapter.notifyDataSetChanged();
     }
 }

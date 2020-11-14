@@ -1,14 +1,13 @@
 package com.isil.appproyectoandroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.isil.appproyectoandroid.tabs.MovimientosAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.isil.appproyectoandroid.tabs.TabsActivity;
 
 public class ModificarActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,9 +25,18 @@ public class ModificarActivity extends AppCompatActivity implements View.OnClick
         btnActualizar = findViewById(R.id.btnActualizar);
         btnEliminar = findViewById(R.id.btnEliminar);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int idmovimiento = extras.getInt("id");
+            String descripcion = extras.getString("descripcion");
+            float monto = extras.getFloat("monto");
+
+            etDescripcion.setText(descripcion);
+            etMonto.setText(""+monto);
+        }
+
         btnActualizar.setOnClickListener(this);
         btnEliminar.setOnClickListener(this);
-
     }
 
     @Override

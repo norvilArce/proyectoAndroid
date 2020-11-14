@@ -69,11 +69,6 @@ public class Datos extends SQLiteOpenHelper {
         sqLiteDatabase.delete("movimientos",null,null);
     }
 
-    public void actualizarMovimientos(Datos datos) {
-        SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
-        sqLiteDatabase.update("movimientos", null, null, null);
-    }
-
     public void updateMovimientos(Datos datos, int idmovi, String des, float mon, int movimiento) {
         SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
         ContentValues args = new ContentValues();
@@ -81,7 +76,7 @@ public class Datos extends SQLiteOpenHelper {
         args.put("descripcion", des);
         args.put("monto", mon);
         args.put("movimiento", movimiento);
-        sqLiteDatabase.update("movimientos", args, null, null);
+        sqLiteDatabase.update("movimientos", args, "_idmovimiento=?", new String[]{String.valueOf(idmovi)});
     }
 
     @Override
