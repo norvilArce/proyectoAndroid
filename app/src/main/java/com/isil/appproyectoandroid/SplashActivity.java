@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 4000);
+        handler.postDelayed(runnable, 3000);
     }
 
     private void mostrarTabsActivity() {
