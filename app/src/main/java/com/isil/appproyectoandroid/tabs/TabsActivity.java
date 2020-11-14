@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,7 +53,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new PagerAdapter(getSupportFragmentManager());
 
         tlMovimientos.setupWithViewPager(vpTaps);
-        adapter.addFragments(movimientosFragment,"Movimientos");
+        adapter.addFragments(movimientosFragment, "Movimientos");
         adapter.addFragments(ingresosFragment, "Ingresos");
         adapter.addFragments(gastosFragment, "Gastos");
         vpTaps.setAdapter(adapter);
@@ -95,7 +96,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.itm_borrar:
                 borrarTodo();
                 confirmarBorrado();
@@ -107,7 +108,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.fabAgregarMovimiento:
                 mostrarAlertDialogAgregar();
                 break;
@@ -122,10 +123,10 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_agregar, null);
         builder.setView(view);
 
-        final EditText etDescripcion = (EditText)view.findViewById(R.id.etDescripcion);
-        final EditText etMonto = (EditText)view.findViewById(R.id.etMonto);
-        final RadioButton rbIngreso =view.findViewById(R.id.rbIngreso);
-        final RadioButton rbGasto =view.findViewById(R.id.rbGasto);
+        final EditText etDescripcion = (EditText) view.findViewById(R.id.etDescripcion);
+        final EditText etMonto = (EditText) view.findViewById(R.id.etMonto);
+        final RadioButton rbIngreso = view.findViewById(R.id.rbIngreso);
+        final RadioButton rbGasto = view.findViewById(R.id.rbGasto);
 
         rbIngreso.setChecked(true);
         builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
@@ -137,13 +138,13 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
                 if (!descripcion.equals("") && !monto.equals("")) {
                     float fMonto = Float.parseFloat(monto);
                     int movimiento;
-                    if (!rbGasto.isChecked()){
-                        movimiento=1;
-                    }else {
-                        movimiento=0;
+                    if (!rbGasto.isChecked()) {
+                        movimiento = 1;
+                    } else {
+                        movimiento = 0;
                     }
                     registrar(descripcion, fMonto, movimiento);
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "No puede ingresar campos vacios", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -177,9 +178,9 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
         Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
 
-        if (movimiento==0){
+        if (movimiento == 0) {
             gastosFragment.llenarLista();
-        }else if(movimiento==1){
+        } else if (movimiento == 1) {
             ingresosFragment.llenarLista();
         }
         movimientosFragment.llenarLista();

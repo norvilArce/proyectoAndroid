@@ -3,15 +3,21 @@ package com.isil.appproyectoandroid.tabs;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.isil.appproyectoandroid.Datos;
@@ -81,6 +87,37 @@ public class MovimientosFragment extends Fragment {
         llenarLista();
 
         return v;
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.opt_editar:
+                editarMovimiento();
+                return true;
+            case R.id.opt_borrar:
+                borrarMovimiento();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void editarMovimiento() {
+
+    }
+
+    private void borrarMovimiento() {
+
     }
 
     public void llenarLista() {
