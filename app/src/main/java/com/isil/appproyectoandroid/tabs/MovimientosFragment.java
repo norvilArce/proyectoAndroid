@@ -3,6 +3,7 @@ package com.isil.appproyectoandroid.tabs;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.security.identity.IdentityCredentialStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,6 +92,12 @@ public class MovimientosFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        registerForContextMenu(lvMovimientos);
+    }
+
+    @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -99,12 +107,13 @@ public class MovimientosFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()){
             case R.id.opt_editar:
-                editarMovimiento();
+                editarMovimiento(info.position);
                 return true;
             case R.id.opt_borrar:
-                borrarMovimiento();
+                borrarMovimiento(info.position);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -112,11 +121,12 @@ public class MovimientosFragment extends Fragment {
 
     }
 
-    private void editarMovimiento() {
-
+    private void editarMovimiento(int position) {
+        Object o = movimientos.get(position);
+        Toast.makeText(getContext(), o.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void borrarMovimiento() {
+    private void borrarMovimiento(int position) {
 
     }
 

@@ -192,6 +192,8 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         gastosFragment.llenarLista();
         ingresosFragment.llenarLista();
         movimientosFragment.llenarLista();
-        Toast.makeText(this, "y se marchooo :v", Toast.LENGTH_SHORT).show();
+        movimientosFragment.adapter.notifyDataSetChanged();
+        ingresosFragment.adapter.notifyDataSetChanged();
+        Toast.makeText(this, "Movimientos elimninados", Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,11 +5,17 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -32,6 +38,7 @@ public class IngresosFragment extends Fragment {
     ArrayList ingresos = new ArrayList<HashMap<String, String>>();
     ListView lvIngresos;
     TextView tvMonto;
+    MovimientosAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +93,43 @@ public class IngresosFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        registerForContextMenu(lvIngresos);
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.opt_editar:
+                editarMovimiento();
+                return true;
+            case R.id.opt_borrar:
+                borrarMovimiento();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void editarMovimiento() {
+
+    }
+
+    private void borrarMovimiento() {
+
+    }
+
     public void llenarLista() {
         ingresos.clear();
         Datos datos = new Datos(getContext());
@@ -103,7 +147,7 @@ public class IngresosFragment extends Fragment {
                     ingresos.add(map);
                 } while (cursor.moveToNext());
 
-                MovimientosAdapter adapter = new MovimientosAdapter(getActivity(), ingresos);
+                adapter = new MovimientosAdapter(getActivity(), ingresos);
                 lvIngresos.setAdapter(adapter);
             }
         }

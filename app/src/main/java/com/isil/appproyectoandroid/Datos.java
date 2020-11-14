@@ -46,8 +46,8 @@ public class Datos extends SQLiteOpenHelper {
 
     public Cursor mostrarIngresos(Datos datos){
         SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
-        String consultaSQL = "select * from movimientos where movimiento=1";
-        return sqLiteDatabase.rawQuery(consultaSQL,null);
+        String consultaSQL = "select * from movimientos where movimiento=?";
+        return sqLiteDatabase.rawQuery(consultaSQL,new String[] {"1"});
     }
 
     public Cursor mostrarGastos(Datos datos){
