@@ -98,7 +98,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itm_borrar:
-                borrarTodo();
+                //borrarTodo();
                 confirmarBorrado();
                 return true;
             default:

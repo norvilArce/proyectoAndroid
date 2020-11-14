@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.isil.appproyectoandroid.tabs.MovimientosAdapter;
+import com.isil.appproyectoandroid.tabs.TabsActivity;
 
-public class Modificar extends AppCompatActivity implements View.OnClickListener {
+public class ModificarActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etDescripcion, etMonto;
     Button btnActualizar, btnEliminar;
@@ -49,7 +50,7 @@ public class Modificar extends AppCompatActivity implements View.OnClickListener
     public void returnHome() {
 
         Intent home_intent = new Intent(getApplicationContext(),
-                MovimientosAdapter.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                TabsActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(home_intent);
     }

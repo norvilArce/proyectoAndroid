@@ -66,8 +66,7 @@ public class Datos extends SQLiteOpenHelper {
 
     public void eliminarMovimientos(Datos datos){
         SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
-        String consultaSQL = "delete from movimientos";
-        sqLiteDatabase.rawQuery(consultaSQL,null);
+        sqLiteDatabase.delete("movimientos",null,null);
     }
 
 
