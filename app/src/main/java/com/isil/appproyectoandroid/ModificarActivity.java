@@ -36,8 +36,8 @@ public class ModificarActivity extends AppCompatActivity implements View.OnClick
         // TODO Auto-generated method stub
         switch (view.getId()) {
             case R.id.btnActualizar:
-                String descripcion = etDescripcion.getText().toString();
-                String monto = etMonto.getText().toString();
+                String des = etDescripcion.getText().toString();
+                String mon = etMonto.getText().toString();
                 this.returnHome();
                 break;
 
