@@ -1,6 +1,7 @@
 package com.isil.appproyectoandroid.tabs;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,8 +24,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.isil.appproyectoandroid.Datos;
+import com.isil.appproyectoandroid.ModificarActivity;
 import com.isil.appproyectoandroid.R;
 import com.isil.appproyectoandroid.models.Movimiento;
+import com.isil.appproyectoandroid.util.Util;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,10 +41,10 @@ import java.util.List;
  */
 public class IngresosFragment extends Fragment {
 
-    List<Movimiento> ingresos = new ArrayList<>();
-    ListView lvIngresos;
-    TextView tvMonto;
-    MovimientosAdapter adapter;
+    private List<Movimiento> ingresos = new ArrayList<>();
+    private ListView lvIngresos;
+    private TextView tvMonto;
+    IngresosAdapter adapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,38 +102,51 @@ public class IngresosFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        adapter = new IngresosAdapter(getActivity(), R.layout.list_items, ingresos);
+        lvIngresos.setAdapter(adapter);
+
         registerForContextMenu(lvIngresos);
     }
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+        //super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.context_menu, menu);
+        menuInflater.inflate(R.menu.context_menu_ing, menu);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
             case R.id.opt_editar:
-                editarMovimiento();
+                editarMovimiento(ingresos.get(info.position));
                 return true;
             case R.id.opt_borrar:
-                borrarMovimiento();
+                borrarMovimiento(ingresos.get(info.position));
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
-
     }
 
-    private void editarMovimiento() {
-
+    private void borrarMovimiento(Movimiento ingreso) {
+        Integer idmovimiento = ingreso.getIdmovimiento();
+        Datos datos = new Datos(getContext());
+        datos.eliminarById(datos, idmovimiento);
+        llenarLista();
+        adapter.notifyDataSetChanged();
+        TabsActivity.calcularSaldo(getActivity());
     }
 
-    private void borrarMovimiento() {
-
+    private void editarMovimiento(Movimiento ingreso) {
+        Intent intent = new Intent(getContext(), ModificarActivity.class);
+        intent.putExtra("id", ingreso.getIdmovimiento());
+        intent.putExtra("descripcion", ingreso.getDescripcion());
+        intent.putExtra("monto", ingreso.getMonto());
+        intent.putExtra("movimiento", ingreso.getMovimiento());
+        getContext().startActivity(intent);
     }
 
     public void llenarLista() {
@@ -141,18 +157,16 @@ public class IngresosFragment extends Fragment {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    Movimiento movimiento;
+                    Movimiento gasto;
                     Integer idmovimiento = cursor.getInt(cursor.getColumnIndex("idmovimiento"));
                     String fecha = cursor.getString(cursor.getColumnIndex("fecha"));
                     String descripcion = cursor.getString(cursor.getColumnIndex("descripcion"));
                     float monto =cursor.getFloat(cursor.getColumnIndex("monto"));
                     int tipo = cursor.getInt(cursor.getColumnIndex("movimiento"));
-                    movimiento = new Movimiento(idmovimiento, fecha, descripcion, monto, tipo);
-                    ingresos.add(movimiento);
+                    gasto = new Movimiento(idmovimiento, fecha, descripcion, monto, tipo);
+                    ingresos.add(gasto);
                 } while (cursor.moveToNext());
 
-                adapter = new MovimientosAdapter(getActivity(), R.layout.list_items, ingresos);
-                lvIngresos.setAdapter(adapter);
             }
         }
     }

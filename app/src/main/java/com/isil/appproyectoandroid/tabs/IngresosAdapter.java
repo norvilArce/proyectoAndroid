@@ -14,26 +14,26 @@ import com.isil.appproyectoandroid.models.Movimiento;
 
 import java.util.List;
 
-public class MovimientosAdapter extends BaseAdapter {
+public class IngresosAdapter extends BaseAdapter {
 
     public Context context;
     public int layout;
-    public List<Movimiento> movimientos;
+    public List<Movimiento> ingresos;
 
-    public MovimientosAdapter(Context context, int layout, List<Movimiento> movimientos) {
+    public IngresosAdapter(Context context, int layout, List<Movimiento> ingresos) {
         this.context = context;
         this.layout = layout;
-        this.movimientos = movimientos;
+        this.ingresos = ingresos;
     }
 
     @Override
     public int getCount() {
-        return movimientos.size();
+        return ingresos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return movimientos.get(position);
+        return ingresos.get(position);
     }
 
     @Override
@@ -63,17 +63,8 @@ public class MovimientosAdapter extends BaseAdapter {
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String date = movimientoActual.getFecha().substring(5, 16);
         holder.tvFecha.setText(date);
+        holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.ingreso));
 
-        switch (movimientoActual.getMovimiento()) {
-            case 1:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.ingreso));
-                break;
-            case -1:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.gasto));
-                break;
-            default:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.colorText));
-        }
         return convertView;
     }
 

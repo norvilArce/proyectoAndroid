@@ -13,7 +13,11 @@ import com.isil.appproyectoandroid.tabs.TabsActivity;
 public class ModificarActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etDescripcion, etMonto;
-    Button btnActualizar, btnEliminar;
+    Button btnActualizar, btnCancelar;
+    Integer idmovimiento;
+    String descripcion;
+    float monto;
+    int movimiento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,20 +27,21 @@ public class ModificarActivity extends AppCompatActivity implements View.OnClick
         etDescripcion = findViewById(R.id.etDescripcion);
         etMonto = findViewById(R.id.etMonto);
         btnActualizar = findViewById(R.id.btnActualizar);
-        btnEliminar = findViewById(R.id.btnEliminar);
+        btnCancelar = findViewById(R.id.btnCancelar);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int idmovimiento = extras.getInt("id");
-            String descripcion = extras.getString("descripcion");
-            float monto = extras.getFloat("monto");
+            idmovimiento = extras.getInt("id");
+            descripcion = extras.getString("descripcion");
+            monto = extras.getFloat("monto");
+            movimiento = extras.getInt("movimiento");
 
             etDescripcion.setText(descripcion);
-            etMonto.setText(""+monto);
+            etMonto.setText("" + monto);
         }
 
         btnActualizar.setOnClickListener(this);
-        btnEliminar.setOnClickListener(this);
+        btnCancelar.setOnClickListener(this);
     }
 
     @Override
@@ -46,13 +51,21 @@ public class ModificarActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnActualizar:
                 String des = etDescripcion.getText().toString();
                 String mon = etMonto.getText().toString();
+                actualizarMovimiento();
                 this.returnHome();
                 break;
 
-            case R.id.btnEliminar:
+            case R.id.btnCancelar:
                 this.returnHome();
                 break;
         }
+    }
+
+    private void actualizarMovimiento() {
+        Datos datos = new Datos(this);
+        descripcion = etDescripcion.getText().toString();
+        monto = Float.parseFloat(etMonto.getText().toString());
+        datos.updateMovimientos(datos, idmovimiento, descripcion, monto, movimiento);
     }
 
     public void returnHome() {

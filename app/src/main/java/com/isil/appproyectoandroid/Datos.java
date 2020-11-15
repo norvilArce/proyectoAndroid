@@ -25,7 +25,7 @@ public class Datos extends SQLiteOpenHelper {
                 "movimiento int)"); //1->ingreso   0->gasto
     }
 
-    public long registrarMovimiento(Datos datos, String descripcion, float monto, int movimiento){
+    public long registrarMovimiento(Datos datos, String descripcion, float monto, int movimiento) {
         SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
         //sqLiteDatabase.execSQL("any query");
 
@@ -38,45 +38,64 @@ public class Datos extends SQLiteOpenHelper {
         return nuevoId;
     }
 
-    public Cursor mostrarTodo(Datos datos){
+    public Cursor mostrarTodo(Datos datos) {
         SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
         String consultaSQL = "select * from movimientos";
-        return sqLiteDatabase.rawQuery(consultaSQL,null);
+        return sqLiteDatabase.rawQuery(consultaSQL, null);
     }
 
-    public Cursor mostrarIngresos(Datos datos){
+    public Cursor mostrarIngresos(Datos datos) {
         SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
         String consultaSQL = "select * from movimientos where movimiento=?";
-        return sqLiteDatabase.rawQuery(consultaSQL,new String[] {"1"});
+        return sqLiteDatabase.rawQuery(consultaSQL, new String[]{"1"});
     }
 
-    public Cursor mostrarGastos(Datos datos){
+    public Cursor mostrarGastos(Datos datos) {
         SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
-        String consultaSQL = "select * from movimientos where movimiento=0";
-        return sqLiteDatabase.rawQuery(consultaSQL,null);
+        String consultaSQL = "select * from movimientos where movimiento=?";
+        return sqLiteDatabase.rawQuery(consultaSQL, new String[]{"-1"});
     }
 
-    public float sumarMontos(Datos datos){
+    public float sumarMontos(Datos datos) {
+        float total = 0;
         SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
-        String consultaSQL = "select sum(monto) from movimientos";
+        String consultaSQL = "select sum(monto*movimiento) as monto from movimientos";
         Cursor cursor = sqLiteDatabase.rawQuery(consultaSQL, null);
-        float suma = Float.parseFloat(String.valueOf(cursor)); //puede dar error
-        return suma;
+        if (cursor.moveToFirst()){
+            float totals = cursor.getFloat(cursor.getColumnIndex("monto"));
+            return totals;
+        }
+        while (cursor.moveToNext());
+        return sumarMontos(datos);
     }
 
-    public void eliminarMovimientos(Datos datos){
+    public void eliminarMovimientos(Datos datos) {
         SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
-        sqLiteDatabase.delete("movimientos",null,null);
+        sqLiteDatabase.delete("movimientos", null, null);
     }
 
-    public void updateMovimientos(Datos datos, int idmovi, String des, float mon, int movimiento) {
+    public void eliminarById(Datos datos, Integer idmovimiento) {
         SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
         ContentValues args = new ContentValues();
-        args.put("idmovimiento", idmovi);
-        args.put("descripcion", des);
-        args.put("monto", mon);
+        args.put("idmovimiento", idmovimiento);
+        sqLiteDatabase.delete("movimientos", "idmovimiento=?", new String[]{String.valueOf(idmovimiento)});
+    }
+
+    public Cursor findById(Datos datos, Integer idmovimiento) {
+        SQLiteDatabase sqLiteDatabase = datos.getReadableDatabase();
+        String consultaSQL = "select * from movimientos where idmovimiento=?";
+        return sqLiteDatabase.rawQuery(consultaSQL, new String[]{String.valueOf(idmovimiento)});
+    }
+
+
+    public void updateMovimientos(Datos datos, Integer idmovimiento, String descripcion, float monto, int movimiento) {
+        SQLiteDatabase sqLiteDatabase = datos.getWritableDatabase();
+        ContentValues args = new ContentValues();
+        args.put("idmovimiento", idmovimiento);
+        args.put("descripcion", descripcion);
+        args.put("monto", monto);
         args.put("movimiento", movimiento);
-        sqLiteDatabase.update("movimientos", args, "_idmovimiento=?", new String[]{String.valueOf(idmovi)});
+        sqLiteDatabase.update("movimientos", args, "idmovimiento=?", new String[]{String.valueOf(idmovimiento)});
     }
 
     @Override

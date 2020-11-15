@@ -5,8 +5,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -28,6 +32,8 @@ import com.isil.appproyectoandroid.AddActivity;
 import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
 
+import org.w3c.dom.Text;
+
 public class TabsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TabLayout tlMovimientos;
@@ -35,11 +41,14 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
     private TabItem tabIngresos, tabGastos;
     private PagerAdapter adapter;
     private FloatingActionButton fab;
+    private static TextView tvSaldo;
+    static final float montoInicial = 0;
 
     MovimientosFragment movimientosFragment = new MovimientosFragment();
     IngresosFragment ingresosFragment = new IngresosFragment();
     GastosFragment gastosFragment = new GastosFragment();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +59,10 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         tabIngresos = findViewById(R.id.tabIngreos);
         tabGastos = findViewById(R.id.tabGastos);
         fab = findViewById(R.id.fabAgregarMovimiento);
+        tvSaldo = findViewById(R.id.tvSaldo);
         adapter = new PagerAdapter(getSupportFragmentManager());
+
+        calcularSaldo(this);
 
         tlMovimientos.setupWithViewPager(vpTaps);
         adapter.addFragments(movimientosFragment, "Movimientos");
@@ -88,6 +100,13 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public static void calcularSaldo(Context context) {
+        Datos datos = new Datos(context);
+        float v = datos.sumarMontos(datos);
+        float saldo = montoInicial + v;
+        tvSaldo.setText(saldo+"");
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.option_menu, menu);
@@ -98,7 +117,6 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itm_borrar:
-                //borrarTodo();
                 confirmarBorrado();
                 return true;
             default:
@@ -123,8 +141,8 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_agregar, null);
         builder.setView(view);
 
-        final EditText etDescripcion = (EditText) view.findViewById(R.id.etDescripcion);
-        final EditText etMonto = (EditText) view.findViewById(R.id.etMonto);
+        final EditText etDescripcion = view.findViewById(R.id.etDescripcion);
+        final EditText etMonto = view.findViewById(R.id.etMonto);
         final RadioButton rbIngreso = view.findViewById(R.id.rbIngreso);
         final RadioButton rbGasto = view.findViewById(R.id.rbGasto);
 
@@ -141,7 +159,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
                     if (!rbGasto.isChecked()) {
                         movimiento = 1;
                     } else {
-                        movimiento = 0;
+                        movimiento = -1;
                     }
                     registrar(descripcion, fMonto, movimiento);
                 } else {
@@ -178,22 +196,25 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         long autonumerico = datos.registrarMovimiento(datos, descripcion, monto, movimiento);
         Toast.makeText(this, String.valueOf(autonumerico), Toast.LENGTH_SHORT).show();
 
-        if (movimiento == 0) {
+        if (movimiento == -1) {
             gastosFragment.llenarLista();
         } else if (movimiento == 1) {
             ingresosFragment.llenarLista();
         }
         movimientosFragment.llenarLista();
+        calcularSaldo(this);
     }
 
     private void borrarTodo() {
         Datos datos = new Datos(this);
         datos.eliminarMovimientos(datos);
-        gastosFragment.llenarLista();
-        ingresosFragment.llenarLista();
         movimientosFragment.llenarLista();
         movimientosFragment.adapter.notifyDataSetChanged();
+        ingresosFragment.llenarLista();
         ingresosFragment.adapter.notifyDataSetChanged();
+        gastosFragment.llenarLista();
+        gastosFragment.adapter.notifyDataSetChanged();
+        calcularSaldo(this);
         Toast.makeText(this, "Movimientos elimninados", Toast.LENGTH_SHORT).show();
     }
 }

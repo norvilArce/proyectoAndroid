@@ -14,26 +14,26 @@ import com.isil.appproyectoandroid.models.Movimiento;
 
 import java.util.List;
 
-public class MovimientosAdapter extends BaseAdapter {
+public class GastosAdapter extends BaseAdapter {
 
     public Context context;
     public int layout;
-    public List<Movimiento> movimientos;
+    public List<Movimiento> gastos;
 
-    public MovimientosAdapter(Context context, int layout, List<Movimiento> movimientos) {
+    public GastosAdapter(Context context, int layout, List<Movimiento> gastos) {
         this.context = context;
         this.layout = layout;
-        this.movimientos = movimientos;
+        this.gastos = gastos;
     }
 
     @Override
     public int getCount() {
-        return movimientos.size();
+        return gastos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return movimientos.get(position);
+        return gastos.get(position);
     }
 
     @Override
@@ -54,7 +54,6 @@ public class MovimientosAdapter extends BaseAdapter {
         holder.tvMonto = convertView.findViewById(R.id.tvMonto);
         holder.tvFecha = convertView.findViewById(R.id.tvFecha);
 
-
         final Movimiento movimientoActual = (Movimiento) getItem(posicion);
         holder.tvDescripcion.setText(movimientoActual.getDescripcion());
         float monto = movimientoActual.getMonto();
@@ -63,17 +62,8 @@ public class MovimientosAdapter extends BaseAdapter {
         //DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String date = movimientoActual.getFecha().substring(5, 16);
         holder.tvFecha.setText(date);
+        holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.gasto));
 
-        switch (movimientoActual.getMovimiento()) {
-            case 1:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.ingreso));
-                break;
-            case -1:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.gasto));
-                break;
-            default:
-                holder.tvMonto.setTextColor(ContextCompat.getColor(context, R.color.colorText));
-        }
         return convertView;
     }
 
