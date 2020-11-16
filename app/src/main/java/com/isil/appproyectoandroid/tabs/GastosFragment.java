@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,14 +32,14 @@ import java.util.List;
  */
 public class GastosFragment extends Fragment {
 
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    GastosAdapter adapter;
     private List<Movimiento> gastos = new ArrayList();
     private ListView lvGastos;
+    //private TextView tvMonto;
+    GastosAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -79,20 +80,17 @@ public class GastosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_gastos, container, false);
-
+        //tvMonto = v.findViewById(R.id.tvMonto);
         lvGastos = v.findViewById(R.id.lvGastos);
-
-
+        llenarLista();
         return v;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapter = new GastosAdapter(getActivity(), R.layout.list_items, gastos);
         lvGastos.setAdapter(adapter);
-        llenarLista();
         registerForContextMenu(lvGastos);
     }
 

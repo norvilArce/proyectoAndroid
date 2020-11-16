@@ -19,6 +19,6 @@ public class Util {
 
     public void borrarMovimiento(Movimiento movimiento, Context context) {
         String descripcion = movimiento.getDescripcion();
-        Toast.makeText(context, "asi que queires borrar: "+descripcion, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "asi que quieres borrar: "+descripcion, Toast.LENGTH_LONG).show();
     }
 }

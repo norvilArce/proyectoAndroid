@@ -54,7 +54,6 @@ public class MovimientosAdapter extends BaseAdapter {
         holder.tvMonto = convertView.findViewById(R.id.tvMonto);
         holder.tvFecha = convertView.findViewById(R.id.tvFecha);
 
-
         final Movimiento movimientoActual = (Movimiento) getItem(posicion);
         holder.tvDescripcion.setText(movimientoActual.getDescripcion());
         float monto = movimientoActual.getMonto();

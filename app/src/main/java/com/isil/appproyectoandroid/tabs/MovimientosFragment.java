@@ -37,9 +37,9 @@ public class MovimientosFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private TextView tvMonto;
     private List<Movimiento> movimientos = new ArrayList<>();
     private ListView lvMovimientos;
+    private TextView tvMonto;
     MovimientosAdapter adapter;
 
     // TODO: Rename and change types of parameters
@@ -82,18 +82,15 @@ public class MovimientosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_movimientos, container, false);
-
         tvMonto = v.findViewById(R.id.tvMonto);
         lvMovimientos = v.findViewById(R.id.lvMovimientos);
         llenarLista();
-
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         adapter = new MovimientosAdapter(getContext(), R.layout.list_items, movimientos);
         lvMovimientos.setAdapter(adapter);
         registerForContextMenu(lvMovimientos);
@@ -103,7 +100,6 @@ public class MovimientosFragment extends Fragment {
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         //super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        View targetView = info.targetView;
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.context_menu, menu);
     }
@@ -113,7 +109,6 @@ public class MovimientosFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.opt_editar:
-
                 editarMovimiento(movimientos.get(info.position));
                 return true;
             case R.id.opt_borrar:
@@ -142,7 +137,6 @@ public class MovimientosFragment extends Fragment {
         getContext().startActivity(intent);
     }
 
-
     public void llenarLista() {
         movimientos.clear();
         Datos datos = new Datos(getContext());
@@ -157,7 +151,6 @@ public class MovimientosFragment extends Fragment {
                     float monto = cursor.getFloat(cursor.getColumnIndex("monto"));
                     int tipo = cursor.getInt(cursor.getColumnIndex("movimiento"));
                     Movimiento movimiento = new Movimiento(idmovimiento, fecha, descripcion, monto, tipo);
-
                     movimientos.add(movimiento);
                 } while (cursor.moveToNext());
 

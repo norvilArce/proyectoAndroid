@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="#B3A897"
+    android:background="#c7a500"
     android:orientation="vertical"
     tools:context=".tabs.TabsActivity">
 
@@ -55,7 +55,8 @@
                 android:id="@+id/tlMovimientos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
+                app:tabTextColor="@color/colorText"
+                android:background="@color/colortabs">
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabMovimientos"

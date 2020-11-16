@@ -41,15 +41,14 @@ import java.util.List;
  */
 public class IngresosFragment extends Fragment {
 
-    private List<Movimiento> ingresos = new ArrayList<>();
-    private ListView lvIngresos;
-    private TextView tvMonto;
-    IngresosAdapter adapter;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private List<Movimiento> ingresos = new ArrayList<>();
+    private ListView lvIngresos;
+    private TextView tvMonto;
+    IngresosAdapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -93,9 +92,7 @@ public class IngresosFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_ingresos, container, false);
         tvMonto = v.findViewById(R.id.tvMonto);
         lvIngresos = v.findViewById(R.id.lvIngresos);
-
         llenarLista();
-
         return v;
     }
 
@@ -104,7 +101,6 @@ public class IngresosFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         adapter = new IngresosAdapter(getActivity(), R.layout.list_items, ingresos);
         lvIngresos.setAdapter(adapter);
-
         registerForContextMenu(lvIngresos);
     }
 

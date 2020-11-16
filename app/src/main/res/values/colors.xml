@@ -7,13 +7,15 @@
     <color name="colorPrimary3">#5950DF</color>
 
     <color name="colorPrimaryDark">#1A1C23</color>
-    <color name="colorAccent">#FF5722</color>
-    <color name="colorText">#F6F6F6</color>
+    <color name="colorAccent">#0336FF</color>
+    <color name="colorText">#000000</color>
     <color name="colorBackground">#2A2C36</color>
     <color name="colorHint">#2A2C36</color>
     <color name="colorText2">#FFBA49</color>
 
     <color name="ingreso">#174188</color>
     <color name="gasto">#D83030</color>
+
+    <color name="colortabs">#FFDE03</color>
 
 </resources>
