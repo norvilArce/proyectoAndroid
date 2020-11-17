@@ -38,6 +38,9 @@ public class ModificarActivity extends AppCompatActivity implements View.OnClick
 
             etDescripcion.setText(descripcion);
             etMonto.setText("" + monto);
+
+            String mensaje = (movimiento==1)? "ingreso":"gasto";
+            setTitle("Editar "+mensaje);
         }
 
         btnActualizar.setOnClickListener(this);

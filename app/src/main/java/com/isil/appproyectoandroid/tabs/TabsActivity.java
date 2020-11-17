@@ -1,54 +1,43 @@
 package com.isil.appproyectoandroid.tabs;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.isil.appproyectoandroid.AddActivity;
 import com.isil.appproyectoandroid.Datos;
 import com.isil.appproyectoandroid.R;
 
-import org.w3c.dom.Text;
-
 public class TabsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    static final float montoInicial = 0;
+    private static TextView tvSaldo;
+    MovimientosFragment movimientosFragment = new MovimientosFragment();
+    IngresosFragment ingresosFragment = new IngresosFragment();
+    GastosFragment gastosFragment = new GastosFragment();
     private TabLayout tlMovimientos;
     private ViewPager vpTaps;
     private TabItem tabIngresos, tabGastos;
     private PagerAdapter adapter;
     private FloatingActionButton fab;
-    private static TextView tvSaldo;
-    static final float montoInicial = 0;
 
-    MovimientosFragment movimientosFragment = new MovimientosFragment();
-    IngresosFragment ingresosFragment = new IngresosFragment();
-    GastosFragment gastosFragment = new GastosFragment();
-
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +51,11 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         tvSaldo = findViewById(R.id.tvSaldo);
         adapter = new PagerAdapter(getSupportFragmentManager());
 
-        calcularSaldo(this);
+        getSupportActionBar().setIcon(R.mipmap.ic_billetes);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        calcularSaldo(this, this);
 
         tlMovimientos.setupWithViewPager(vpTaps);
         adapter.addFragments(movimientosFragment, "Movimientos");
@@ -100,13 +93,6 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public static void calcularSaldo(Context context) {
-        Datos datos = new Datos(context);
-        float v = datos.sumarMontos(datos);
-        float saldo = montoInicial + v;
-        tvSaldo.setText(saldo+"");
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.option_menu, menu);
@@ -133,10 +119,18 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public static void calcularSaldo(Context context, Activity activity) {
+        Datos datos = new Datos(context);
+        float v = datos.sumarMontos(datos);
+        float saldo = montoInicial + v;
+        tvSaldo.setText(saldo + "");
+        activity.setTitle(" "+saldo);
+    }
+
     private void mostrarAlertDialogAgregar() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Agregar Movimiento");
+        builder.setTitle(Html.fromHtml("<font color='#c7a500'>Añadir Movimiento</font>"));
 
         View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_agregar, null);
         builder.setView(view);
@@ -147,7 +141,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         final RadioButton rbGasto = view.findViewById(R.id.rbGasto);
 
         rbIngreso.setChecked(true);
-        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(Html.fromHtml("<font color='#c7a500'>añadir</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String descripcion = etDescripcion.getText().toString().trim();
@@ -167,7 +161,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(Html.fromHtml("<font color='#c7a500'>cancelar</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -202,7 +196,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
             ingresosFragment.llenarLista();
         }
         movimientosFragment.llenarLista();
-        calcularSaldo(this);
+        calcularSaldo(this, this);
     }
 
     private void borrarTodo() {
@@ -214,7 +208,7 @@ public class TabsActivity extends AppCompatActivity implements View.OnClickListe
         ingresosFragment.adapter.notifyDataSetChanged();
         gastosFragment.llenarLista();
         gastosFragment.adapter.notifyDataSetChanged();
-        calcularSaldo(this);
+        calcularSaldo(this, this);
         Toast.makeText(this, "Movimientos elimninados", Toast.LENGTH_SHORT).show();
     }
 }

@@ -123,7 +123,7 @@ public class GastosFragment extends Fragment {
         datos.eliminarById(datos, idmovimiento);
         llenarLista();
         adapter.notifyDataSetChanged();
-        TabsActivity.calcularSaldo(getActivity());
+        TabsActivity.calcularSaldo(getContext(), getActivity());
     }
 
     private void editarMovimiento(Movimiento gasto) {

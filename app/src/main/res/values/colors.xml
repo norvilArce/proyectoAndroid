@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--degradado -122°-->
     <color name="colorPrimary">#ffd50a</color>
     <color name="colorPrimary2">#783BB7</color>
     <color name="colorPrimary3">#5950DF</color>
@@ -9,7 +8,7 @@
     <color name="colorPrimaryDark">#1A1C23</color>
     <color name="colorAccent">#0336FF</color>
     <color name="colorText">#000000</color>
-    <color name="colorBackground">#2A2C36</color>
+    <color name="colorBackground">#c7a500</color>
     <color name="colorHint">#2A2C36</color>
     <color name="colorText2">#FFBA49</color>
 

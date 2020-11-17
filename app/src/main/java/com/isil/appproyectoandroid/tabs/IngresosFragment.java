@@ -47,7 +47,6 @@ public class IngresosFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private List<Movimiento> ingresos = new ArrayList<>();
     private ListView lvIngresos;
-    private TextView tvMonto;
     IngresosAdapter adapter;
 
     // TODO: Rename and change types of parameters
@@ -90,7 +89,6 @@ public class IngresosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_ingresos, container, false);
-        tvMonto = v.findViewById(R.id.tvMonto);
         lvIngresos = v.findViewById(R.id.lvIngresos);
         llenarLista();
         return v;
@@ -133,7 +131,7 @@ public class IngresosFragment extends Fragment {
         datos.eliminarById(datos, idmovimiento);
         llenarLista();
         adapter.notifyDataSetChanged();
-        TabsActivity.calcularSaldo(getActivity());
+        TabsActivity.calcularSaldo(getContext(),getActivity());
     }
 
     private void editarMovimiento(Movimiento ingreso) {
